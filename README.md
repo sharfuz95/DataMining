@@ -8,4 +8,4 @@ Please install the necessary modules before running the code:
 - Pandas
 - Wordcloud
 
-The dataset_analysis folder contains the code used to perfrom statistical analysys on the data.
+The dataset_analysis folder contains the code used to perform statistical analysys on the data.
