@@ -1,3 +1,6 @@
+#Helpful Resource
+#https://www.dataquest.io/blog/k-nearest-neighbors-in-python/
+
 import pandas as pd # pandas is a data manipulation library
 import numpy as np #provides numerical arrays and functions to manipulate the arrays efficiently
 from scipy.spatial import distance
@@ -57,11 +60,21 @@ test = ratings_data.loc[random_indices[1:test_cutoff]]
 # Generate the train set with the rest of the data.
 train = ratings_data.loc[random_indices[test_cutoff:]]
 
-print(train.head(20))
-print(test.head(20))
+# print(train.head(20))
+# print(test.head(20))
+
+x_columns = ["userId", "movieId"]
+y_column = ["rating"]
 
 knn = KNeighborsRegressor(n_neighbors=5)
-knn.fit(train["rating"], train["userId"])
-predictions = knn.predict(test["rating"])
+knn.fit(train[x_columns], train[y_column])
+predictions = knn.predict(test[x_columns])
 
+#print(predictions)
 
+# Get the actual values for the test set.
+actual = test[y_column]
+# Compute the mean squared error of our predictions.
+mse = (((predictions - actual) ** 2).sum()) / len(predictions)
+
+print(mse)
