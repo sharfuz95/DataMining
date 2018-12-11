@@ -10,6 +10,14 @@ from numpy.random import permutation
 from sklearn.neighbors import KNeighborsRegressor
 
 
+def set_pandas_options() -> None:
+    pd.options.display.max_columns = 1000
+    pd.options.display.max_rows = 1000
+    pd.options.display.max_colwidth = 199
+    pd.options.display.width = None
+    # pd.options.display.precision = 2  # set as needed
+
+set_pandas_options()
 
 ############
 #User Based#
@@ -17,7 +25,7 @@ from sklearn.neighbors import KNeighborsRegressor
 
 #Read file
 movies_data = pd.read_csv('ml-latest-small/movies.csv', sep=',')
-ratings_data=pd.read_csv('ml-latest-small/ratings.csv',sep=',')
+ratings_data = pd.read_csv('ml-latest-small/ratings.csv', sep=',')
 
 #Ratings Columns:
 #['userId' 'movieId' 'rating' 'timestamp']
@@ -25,9 +33,11 @@ ratings_data=pd.read_csv('ml-latest-small/ratings.csv',sep=',')
 #Remove timestamp column
 ratings_data = ratings_data.drop(["timestamp"], axis = 1)
 
+ratings_data = ratings_data.merge(movies_data, left_on = "movieId", right_on = "movieId", how = "left")
+#print(ratings_data.head(20))
+
 #Movies rated by userId
 selected_user = ratings_data[ratings_data["userId"] == 1]
-#print(selected_user)
 
 distance_columns = ["rating"]
 
@@ -60,8 +70,8 @@ test = ratings_data.loc[random_indices[1:test_cutoff]]
 # Generate the train set with the rest of the data.
 train = ratings_data.loc[random_indices[test_cutoff:]]
 
-# print(train.head(20))
-# print(test.head(20))
+#print(train.head(20))
+#print(test.head(20))
 
 x_columns = ["userId", "movieId"]
 y_column = ["rating"]
@@ -70,7 +80,15 @@ knn = KNeighborsRegressor(n_neighbors=5)
 knn.fit(train[x_columns], train[y_column])
 predictions = knn.predict(test[x_columns])
 
-#print(predictions)
+print(predictions)
+# print("There are %i predictions" %len(predictions))
+# print("There are %i tuples in the test set" %len(test))
+
+
+
+comparison = test
+comparison["predictions"] = predictions
+print(comparison.head(20))
 
 # Get the actual values for the test set.
 actual = test[y_column]

@@ -6,6 +6,15 @@ import matplotlib.pyplot as plt # data visualization library
 from wordcloud import WordCloud, STOPWORDS #used to generate world cloud
 
 
+def set_pandas_options() -> None:
+    pd.options.display.max_columns = 1000
+    pd.options.display.max_rows = 1000
+    pd.options.display.max_colwidth = 199
+    pd.options.display.width = None
+    # pd.options.display.precision = 2  # set as needed
+
+set_pandas_options()
+
 
 ######################
 #Matrix Factorization#
