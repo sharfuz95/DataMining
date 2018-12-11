@@ -75,13 +75,13 @@ most_similar_to_selected = ratings_data.loc[int(second_smallest)]["userId"]
 
 
 # Randomly shuffle the index of the ratings_data.
-random_indices = permutation(ratings_data.index)
+###random_indices = permutation(ratings_data.index)
 # Set a cutoff for how many items we want in the test set (in this case 1/3 of the items)
 test_cutoff = math.floor(len(ratings_data)/3)
 # Generate the test set by taking the first 1/3 of the randomly shuffled indices.
-test = ratings_data.loc[random_indices[1:test_cutoff]]
+test = ratings_data.loc[ratings_data.index[1:test_cutoff]]
 # Generate the train set with the rest of the data.
-train = ratings_data.loc[random_indices[test_cutoff:]]
+train = ratings_data.loc[ratings_data.index[test_cutoff:]]
 
 #print(train.head(20))
 #print(test.head(20))
