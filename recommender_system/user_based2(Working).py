@@ -27,17 +27,30 @@ set_pandas_options()
 movies_data = pd.read_csv('ml-latest-small/movies.csv', sep=',')
 ratings_data = pd.read_csv('ml-latest-small/ratings.csv', sep=',')
 
+print(ratings_data.shape)
+
 #Ratings Columns:
 #['userId' 'movieId' 'rating' 'timestamp']
 
 #Remove timestamp column
 ratings_data = ratings_data.drop(["timestamp"], axis = 1)
 
+#Merge with Movie Data
 ratings_data = ratings_data.merge(movies_data, left_on = "movieId", right_on = "movieId", how = "left")
 #print(ratings_data.head(20))
 
 #Movies rated by userId
 selected_user = ratings_data[ratings_data["userId"] == 1]
+print(selected_user.head(10))
+
+#Check if movie has been rated by selected user
+"""
+for movie in selected_user["title"]:
+    if movie == "Braveheart (1995)":
+        print("---------------------------------- Watched")
+    else:
+        print("---------------------------------- Not Watched")
+"""
 
 distance_columns = ["rating"]
 
